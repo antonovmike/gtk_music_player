@@ -95,13 +95,11 @@ impl Playlist {
         if let Some(picture) = tag.pictures().next() {
         let pixbuf_loader = PixbufLoader::new();
         pixbuf_loader.set_size(IMAGE_SIZE, IMAGE_SIZE);
-        pixbuf_loader.loader_write(&picture.data).unwrap();if let Some(pixbuf) = pixbuf_loader.get_pixbuf() {
-        let thumbnail = pixbuf.scale_simple(THUMBNAIL_SIZE,
-        THUMBNAIL_SIZE, INTERP_HYPER).unwrap();
-        self.model.set_value(row, THUMBNAIL_COLUMN,
-        &thumbnail.to_value());
-        self.model.set_value(row, PIXBUF_COLUMN,
-        &pixbuf.to_value());
+        pixbuf_loader.loader_write(&picture.data).unwrap();
+        if let Some(pixbuf) = pixbuf_loader.get_pixbuf() {
+            let thumbnail = pixbuf.scale_simple(THUMBNAIL_SIZE, THUMBNAIL_SIZE, INTERP_HYPER).unwrap();
+            self.model.set_value(row, THUMBNAIL_COLUMN, &thumbnail.to_value());
+            self.model.set_value(row, PIXBUF_COLUMN, &pixbuf.to_value());
         }
         pixbuf_loader.close().unwrap();
         }
