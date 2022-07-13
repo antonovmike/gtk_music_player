@@ -10,6 +10,11 @@ const PAUSE_STOCK: &str = "gtk-media-pause";
 
 pub struct MusicToolbar {
     pub open_button: ToolButton,
+    pub next_button: ToolButton,
+    pub play_button: ToolButton,
+    pub previous_button: ToolButton,
+    pub quit_button: ToolButton,
+    pub remove_button: ToolButton,
     pub stop_button: ToolButton,
     toolbar: Toolbar,
 }
@@ -36,6 +41,11 @@ impl MusicToolbar {
 
         MusicToolbar {
             open_button,
+            next_button,
+            play_button,
+            previous_button,
+            quit_button,
+            remove_button,
             stop_button,
             toolbar,
         }

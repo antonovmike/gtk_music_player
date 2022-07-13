@@ -2,6 +2,7 @@ extern crate gio;
 extern crate gtk;
 extern crate gtk_sys;
 
+use crate::gtk::ToolButtonExt;
 use gtk::WindowType::Toplevel;
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
@@ -19,6 +20,7 @@ mod playlist;
 mod toolbar;
 
 const PLAY_STOCK: &str = "gtk-media-play";
+const PAUSE_STOCK: &str = "gtk-media-play";
 
 struct App {
     adjustment: Adjustment,
@@ -121,6 +123,20 @@ impl App {
         app.connect_toolbar_events();
         app
     }
+    pub fn connect_toolbar_events(&self) {
+        let window = self.window.clone();
+        self.toolbar.quit_button.connect_clicked(move |_| {
+            window.destroy();
+        });
+        let play_button = self.toolbar.play_button.clone();
+        self.toolbar.play_button.connect_clicked(move |_| {
+            if play_button.get_stock_id() == Some(PLAY_STOCK.to_string()) {
+                play_button.set_stock_id(PAUSE_STOCK);
+            } else {
+                play_button.set_stock_id(PLAY_STOCK);
+            }
+        });
+    }
+    
     fn connect_events(&self) {}         // FIX IT
-    fn connect_toolbar_events(&self) {} // FIX IT
 }
