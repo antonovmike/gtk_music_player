@@ -1,3 +1,4 @@
+use crate::gtk::TreeSelectionExt;
 use crate::gtk::ListStoreExt;
 use crate::gtk::ToValue;
 use crate::gtk::ListStoreExtManual;
@@ -136,5 +137,12 @@ impl Playlist {
             }
         let path = path.to_str().unwrap_or_default();
         self.model.set_value(&row, PATH_COLUMN, &path.to_value());
+    }
+
+    pub fn remove_selection(&self) {
+        let selection = self.treeview.get_selection();
+        if let Some((_, iter)) = selection.get_selected() {
+        self.model.remove(&iter);
+        }
     }
 }

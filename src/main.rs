@@ -166,6 +166,11 @@ impl App {
             dialog.destroy();
             file
         }
+
+        let playlist = self.playlist.clone();
+        self.toolbar.remove_button.connect_clicked(move |_| {
+            playlist.remove_selection();
+        });
     }
     
     fn connect_events(&self) {}         // FIX IT
