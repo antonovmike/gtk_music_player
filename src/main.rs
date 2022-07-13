@@ -2,6 +2,9 @@ extern crate gio;
 extern crate gtk;
 extern crate gtk_sys;
 
+use crate::gtk::DialogExt;
+use crate::gtk::FileChooserExt;
+use crate::gtk::FileFilterExt;
 use crate::gtk::ToolButtonExt;
 use gtk::WindowType::Toplevel;
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
@@ -10,9 +13,12 @@ use gtk::Orientation::{Horizontal, Vertical};
 use gtk::{Adjustment, Image, Scale, ScaleExt};
 use gtk::{Application, ApplicationWindow, Window, GtkWindowExt, WidgetExt};
 use gtk::{ContainerExt, SeparatorToolItem, ToolButton, Toolbar};
+use gtk::{FileChooserAction, FileChooserDialog, FileFilter};
 use std::env;
+use std::path::PathBuf;
 use toolbar::MusicToolbar;
 use std::rc::Rc;
+use gtk_sys::{GTK_RESPONSE_ACCEPT, GTK_RESPONSE_CANCEL};
 
 use crate::playlist::Playlist;
 
@@ -21,6 +27,8 @@ mod toolbar;
 
 const PLAY_STOCK: &str = "gtk-media-play";
 const PAUSE_STOCK: &str = "gtk-media-play";
+const RESPONSE_ACCEPT: i32 = GTK_RESPONSE_ACCEPT as i32;
+const RESPONSE_CANCEL: i32 = GTK_RESPONSE_CANCEL as i32;
 
 struct App {
     adjustment: Adjustment,
@@ -136,6 +144,24 @@ impl App {
                 play_button.set_stock_id(PLAY_STOCK);
             }
         });
+    }
+
+    fn show_open_dialog(parent: &ApplicationWindow) -> Option<PathBuf> {
+        let mut file = None;
+        let dialog = FileChooserDialog::new(Some("Select an MP3 audio file"),
+        Some(parent), FileChooserAction::Open);
+        let filter = FileFilter::new();
+        filter.add_mime_type("audio/mp3");
+        filter.set_name("MP3 audio file");
+        dialog.add_filter(&filter);
+        dialog.add_button("Cancel", RESPONSE_CANCEL);
+        dialog.add_button("Accept", RESPONSE_ACCEPT);
+        let result = dialog.run();
+        if result == RESPONSE_ACCEPT {
+        file = dialog.get_filename();
+        }
+        dialog.destroy();
+        file
     }
     
     fn connect_events(&self) {}         // FIX IT

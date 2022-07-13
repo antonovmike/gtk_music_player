@@ -6,7 +6,7 @@ use std::path::Path;
 use gdk_pixbuf::{InterpType, Pixbuf, PixbufLoader};
 use gtk::{
     CellLayoutExt, CellRendererPixbuf, CellRendererText, ListStore,
-    StaticType, TreeIter, TreeView,
+    StaticType, TreeIter, TreeView, FileChooserAction, FileChooserDialog, FileFilter,
     TreeViewColumn, TreeViewColumnExt, TreeViewExt, Type, WidgetExt,
 };
 use id3::Tag;
