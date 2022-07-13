@@ -2,10 +2,7 @@ extern crate gio;
 extern crate gtk;
 extern crate gtk_sys;
 
-use crate::gtk::DialogExt;
-use crate::gtk::FileChooserExt;
-use crate::gtk::FileFilterExt;
-use crate::gtk::ToolButtonExt;
+use crate::gtk::{DialogExt, FileChooserExt, FileFilterExt, ToolButtonExt,};
 use gtk::WindowType::Toplevel;
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
