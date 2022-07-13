@@ -1,9 +1,9 @@
-use std::path::Path;
 use crate::gtk::ListStoreExt;
 use crate::gtk::ToValue;
 use crate::gtk::ListStoreExtManual;
-use gdk_pixbuf::PixbufLoader;
-use gdk_pixbuf::{InterpType, Pixbuf};
+
+use std::path::Path;
+use gdk_pixbuf::{InterpType, Pixbuf, PixbufLoader};
 use gtk::{
     CellLayoutExt, CellRendererPixbuf, CellRendererText, ListStore,
     StaticType, TreeIter, TreeView,
@@ -59,14 +59,13 @@ impl Playlist {
         Playlist { model, treeview }
     }
     fn create_columns(treeview: &TreeView) {
-        Self::add_pixbuf_column(treeview, THUMBNAIL_COLUMN as i32,
-        Visible);
-        Self::add_text_column(treeview, "Title", TITLE_COLUMN as i32);
+        Self::add_pixbuf_column(treeview, THUMBNAIL_COLUMN as i32, Visible);
+        Self::add_text_column(treeview, "Title",  TITLE_COLUMN as i32);
         Self::add_text_column(treeview, "Artist", ARTIST_COLUMN as i32);
-        Self::add_text_column(treeview, "Album", ALBUM_COLUMN as i32);
-        Self::add_text_column(treeview, "Genre", GENRE_COLUMN as i32);
-        Self::add_text_column(treeview, "Year", YEAR_COLUMN as i32);
-        Self::add_text_column(treeview, "Track", TRACK_COLUMN as i32);
+        Self::add_text_column(treeview, "Album",  ALBUM_COLUMN as i32);
+        Self::add_text_column(treeview, "Genre",  GENRE_COLUMN as i32);
+        Self::add_text_column(treeview, "Year",   YEAR_COLUMN as i32);
+        Self::add_text_column(treeview, "Track",  TRACK_COLUMN as i32);
         Self::add_pixbuf_column(treeview, PIXBUF_COLUMN as i32, Invisible);
     }
     fn add_text_column(treeview: &TreeView, title: &str, column: i32) {
@@ -78,8 +77,7 @@ impl Playlist {
         view_column.add_attribute(&cell, "text", column);
         treeview.append_column(&view_column);
     }
-    fn add_pixbuf_column(treeview: &TreeView, column: i32, visibility:
-        Visibility) {
+    fn add_pixbuf_column(treeview: &TreeView, column: i32, visibility: Visibility) {
         let view_column = TreeViewColumn::new();
         if visibility == Visible {
             let cell = CellRendererPixbuf::new();

@@ -1,7 +1,12 @@
 extern crate gdk_pixbuf;
 extern crate id3;
 
-use gtk::{ContainerExt, ToolButton, Toolbar};
+use gtk::{ContainerExt, SeparatorToolItem, ToolButton, ToolButtonExt, Toolbar, WidgetExt};
+
+use super::App;
+
+const PLAY_STOCK: &str = "gtk-media-play";
+const PAUSE_STOCK: &str = "gtk-media-pause";
 
 pub struct MusicToolbar {
     pub open_button: ToolButton,

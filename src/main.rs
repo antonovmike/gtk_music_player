@@ -2,6 +2,7 @@ extern crate gio;
 extern crate gtk;
 extern crate gtk_sys;
 
+use gtk::WindowType::Toplevel;
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
 use gtk::Orientation::{Horizontal, Vertical};
@@ -85,4 +86,41 @@ fn startup_handler(application: &Application) {
     window.set_title("Music Player (fn startup_handler)");
     window.connect_delete_event(|_, _| Inhibit(false));
     window.show();
+}
+
+impl App {
+    fn new(application: Application) -> Self {
+        let window = ApplicationWindow::new(&application);
+        let toolbar = MusicToolbar::new();
+        let adjustment = Adjustment::new(0.0, 0.0, 10.0, 0.0, 0.0, 0.0);
+        let scale = Scale::new(Horizontal, &adjustment);
+        let vbox = gtk::Box::new(Vertical, 0);
+        let cover = Image::new();
+        let playlist = Rc::new(Playlist::new()); // makes playlist visible. DOES NOT WORK without vbox.add(playlist.view())
+        let window = Window::new(Toplevel);
+
+        scale.set_draw_value(false);
+
+        vbox.add(&scale);
+        vbox.add(playlist.view());
+
+        window.set_title("Music Player (impl App)");
+        window.add(&vbox);
+        // window.add(toolbar.toolbar());
+        window.show_all();
+
+        let app = App {
+            adjustment,
+            cover,
+            playlist,
+            toolbar,
+            window,
+        };
+
+        app.connect_events();
+        app.connect_toolbar_events();
+        app
+    }
+    fn connect_events(&self) {}         // FIX IT
+    fn connect_toolbar_events(&self) {} // FIX IT
 }
