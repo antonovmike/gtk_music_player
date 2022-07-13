@@ -2,8 +2,6 @@ extern crate gio;
 extern crate gtk;
 extern crate gtk_sys;
 
-use crate::playlist::Playlist;
-
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
 use gtk::Orientation::{Horizontal, Vertical};
@@ -12,11 +10,23 @@ use gtk::{Application, ApplicationWindow, GtkWindowExt, WidgetExt};
 use gtk::{ContainerExt, SeparatorToolItem, ToolButton, Toolbar};
 use std::env;
 use toolbar::MusicToolbar;
+use std::rc::Rc;
+
+use crate::playlist::Playlist;
 
 mod playlist;
 mod toolbar;
 
 const PLAY_STOCK: &str = "gtk-media-play";
+
+struct App {
+    adjustment: Adjustment,
+    cover: Image,
+    playlist: Rc<Playlist>,
+    toolbar: MusicToolbar,
+    window: ApplicationWindow, // change to next line
+    // window: Window,
+}
 
 fn main() {
     let application = Application::new("com.github.rust-by-example", ApplicationFlags::empty())
