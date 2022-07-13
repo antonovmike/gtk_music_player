@@ -81,9 +81,8 @@ fn main() {
         window.set_title("Music Player (fn main)");
         window.show_all();
     });
+    
     application.connect_activate(|_| {});
-    // application.run(&env::args().collect::<Vec<_>>());
-
     application.connect_startup(startup_handler);
     application.run(&env::args().collect::<Vec<_>>());
 }
