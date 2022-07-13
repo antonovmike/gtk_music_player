@@ -63,7 +63,7 @@ fn main() {
         let playlist = Rc::new(Playlist::new());
         vbox.add(playlist.view()); // makes playlist visible. WORKS!!!
         let cover = Image::new();
-        // cover.set_from_file("cover.jpg");
+
         vbox.add(&cover);
 
         let adjustment = Adjustment::new(0.0, 0.0, 10.0, 0.0, 0.0, 0.0);
@@ -97,7 +97,7 @@ impl App {
         let vbox = gtk::Box::new(Vertical, 0);
         let cover = Image::new();
         let playlist = Rc::new(Playlist::new()); // makes playlist visible. DOES NOT WORK without vbox.add(playlist.view())
-        let window = Window::new(Toplevel);
+        let window = Window::new(Toplevel); // Root, Toplevel, Child, Temp, Foreign, Offscreen, Subsurface,
 
         scale.set_draw_value(false);
 
@@ -106,7 +106,7 @@ impl App {
 
         window.set_title("Music Player (impl App)");
         window.add(&vbox);
-        // window.add(toolbar.toolbar());
+        window.add(toolbar.toolbar());
         window.show_all();
 
         let app = App {
