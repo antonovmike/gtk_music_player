@@ -141,23 +141,31 @@ impl App {
                 play_button.set_stock_id(PLAY_STOCK);
             }
         });
-    }
+        let parent = self.window.clone();
+        let playlist = self.playlist.clone();
+        self.toolbar.open_button.connect_clicked(move |_| {
+            let file = show_open_dialog(&parent);
+            if let Some(file) = file {
+                playlist.add(&file);
+            }
+        });
 
-    fn show_open_dialog(parent: &ApplicationWindow) -> Option<PathBuf> {
-        let mut file = None;
-        let dialog = FileChooserDialog::new(Some("Select an MP3 audio file"), Some(parent), FileChooserAction::Open);
-        let filter = FileFilter::new();
-        filter.add_mime_type("audio/mp3");
-        filter.set_name("MP3 audio file");
-        dialog.add_filter(&filter);
-        dialog.add_button("Cancel", RESPONSE_CANCEL);
-        dialog.add_button("Accept", RESPONSE_ACCEPT);
-        let result = dialog.run();
-        if result == RESPONSE_ACCEPT {
-        file = dialog.get_filename();
+        fn show_open_dialog(parent: &Window) -> Option<PathBuf> {
+            let mut file = None;
+            let dialog = FileChooserDialog::new(Some("Select an MP3 audio file"), Some(parent), FileChooserAction::Open);
+            let filter = FileFilter::new();
+            filter.add_mime_type("audio/mp3");
+            filter.set_name("MP3 audio file");
+            dialog.add_filter(&filter);
+            dialog.add_button("Cancel", RESPONSE_CANCEL);
+            dialog.add_button("Accept", RESPONSE_ACCEPT);
+            let result = dialog.run();
+            if result == RESPONSE_ACCEPT {
+            file = dialog.get_filename();
+            }
+            dialog.destroy();
+            file
         }
-        dialog.destroy();
-        file
     }
     
     fn connect_events(&self) {}         // FIX IT
