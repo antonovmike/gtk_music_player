@@ -62,7 +62,7 @@ fn main() {
         window.add(&vbox);
         let toolbar = MusicToolbar::new();
         vbox.add(toolbar.toolbar());
-        let playlist = Playlist::new();
+        let playlist = Rc::new(Playlist::new());
         vbox.add(playlist.view()); // makes playlist visible. WORKS!!!
         let cover = Image::new();
         // cover.set_from_file("cover.jpg");
