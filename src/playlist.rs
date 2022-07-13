@@ -1,8 +1,10 @@
+use crate::gtk::ImageExt;
 use crate::gtk::TreeModelExt;
 use crate::gtk::TreeSelectionExt;
 use crate::gtk::ListStoreExt;
 use crate::gtk::ToValue;
 use crate::gtk::ListStoreExtManual;
+// use crate::playlist::Playlist;
 
 use std::path::Path;
 use gdk_pixbuf::{InterpType, Pixbuf, PixbufLoader};
@@ -10,6 +12,7 @@ use gtk::{
     CellLayoutExt, CellRendererPixbuf, CellRendererText, ListStore,
     StaticType, TreeIter, TreeView, FileChooserAction, FileChooserDialog, FileFilter,
     TreeViewColumn, TreeViewColumnExt, TreeViewExt, Type, WidgetExt,
+    Image, 
 };
 use id3::Tag;
 
@@ -155,4 +158,9 @@ impl Playlist {
         }
         None
     }
+}
+
+fn set_cover(cover: &Image, playlist: &Playlist) {
+    cover.set_from_pixbuf(playlist.pixbuf().as_ref());
+    cover.show();
 }
