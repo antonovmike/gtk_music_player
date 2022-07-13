@@ -25,7 +25,7 @@ const PATH_COLUMN: u32 = 7;
 const PIXBUF_COLUMN: u32 = 8;
 const IMAGE_SIZE: i32 = 256;
 const THUMBNAIL_SIZE: i32 = 64;
-const INTERP_HYPER:  i32 = 64; // NOT SURE
+const INTERP_HYPER:  InterpType = 3;
 
 pub struct Playlist {
     model: ListStore,
