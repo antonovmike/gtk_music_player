@@ -54,10 +54,7 @@ fn main() {
         let quit_button = ToolButton::new_from_stock("gtk-quit");
         toolbar.add(&quit_button);
 
-        // TOOLBAR v1
-        // window.add(&toolbar);
-
-        // TOOLBAR v2
+        // TOOLBAR
         let vbox = gtk::Box::new(Vertical, 0); // V: toolbar ontop, H: toolbar on the right
         window.add(&vbox);
         let toolbar = MusicToolbar::new();
