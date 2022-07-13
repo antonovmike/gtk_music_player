@@ -1,3 +1,4 @@
+use crate::gtk::TreeModelExt;
 use crate::gtk::TreeSelectionExt;
 use crate::gtk::ListStoreExt;
 use crate::gtk::ToValue;
@@ -144,5 +145,14 @@ impl Playlist {
         if let Some((_, iter)) = selection.get_selected() {
         self.model.remove(&iter);
         }
+    }
+
+    pub fn pixbuf(&self) -> Option<Pixbuf> {
+        let selection = self.treeview.get_selection();
+        if let Some((_, iter)) = selection.get_selected() {
+        let value = self.model.get_value(&iter, PIXBUF_COLUMN as i32);
+        return value.get::<Pixbuf>();
+        }
+        None
     }
 }
