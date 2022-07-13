@@ -1,6 +1,9 @@
 extern crate gdk_pixbuf;
 extern crate id3;
 
+use crate::gtk::ImageExt;
+use crate::Playlist;
+use gtk::Image;
 use gtk::{ContainerExt, SeparatorToolItem, ToolButton, ToolButtonExt, Toolbar, WidgetExt};
 
 use super::App;
@@ -54,3 +57,21 @@ impl MusicToolbar {
         &self.toolbar
     }
 }
+
+fn set_cover(cover: &Image, playlist: &Playlist) {
+    cover.set_from_pixbuf(playlist.pixbuf().as_ref());
+    cover.show();
+}
+/*
+call this function from the click event handler of the play button:
+
+let playlist = self.playlist.clone();
+let cover = self.cover.clone();
+self.toolbar.play_button.connect_clicked(move |_| {
+    if play_button.get_stock_id() == Some(PLAY_STOCK.to_string()) {
+    play_button.set_stock_id(PAUSE_STOCK);
+    set_cover(&cover, &playlist);
+} else {
+    play_button.set_stock_id(PLAY_STOCK);
+}});
+*/

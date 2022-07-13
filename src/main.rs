@@ -2,7 +2,6 @@ extern crate gio;
 extern crate gtk;
 extern crate gtk_sys;
 
-use crate::gtk::{DialogExt, FileChooserExt, FileFilterExt, ToolButtonExt,};
 use gtk::WindowType::Toplevel;
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
@@ -17,6 +16,7 @@ use toolbar::MusicToolbar;
 use std::rc::Rc;
 use gtk_sys::{GTK_RESPONSE_ACCEPT, GTK_RESPONSE_CANCEL};
 
+use crate::gtk::{DialogExt, FileChooserExt, FileFilterExt, ToolButtonExt,};
 use crate::playlist::Playlist;
 
 mod playlist;
@@ -63,7 +63,7 @@ fn main() {
         toolbar.add(&quit_button);
 
         // TOOLBAR
-        let vbox = gtk::Box::new(Vertical, 0); // V: toolbar ontop, H: toolbar on the right
+        let vbox = gtk::Box::new(Vertical, 0); // V: toolbar ontop, H: toolbar on right
         window.add(&vbox);
         let toolbar = MusicToolbar::new();
         vbox.add(toolbar.toolbar());
@@ -83,16 +83,16 @@ fn main() {
     });
     
     application.connect_activate(|_| {});
-    application.connect_startup(startup_handler);
+    // application.connect_startup(startup_handler);
     application.run(&env::args().collect::<Vec<_>>());
 }
 
-fn startup_handler(application: &Application) {
-    let window = ApplicationWindow::new(&application);
-    window.set_title("Music Player (fn startup_handler)");
-    window.connect_delete_event(|_, _| Inhibit(false));
-    window.show();
-}
+// fn startup_handler(application: &Application) {
+//     let window = ApplicationWindow::new(&application);
+//     window.set_title("Music Player (fn startup_handler)");
+//     window.connect_delete_event(|_, _| Inhibit(false));
+//     window.show_all();
+// }
 
 impl App {
     fn new(application: Application) -> Self {
@@ -160,7 +160,7 @@ impl App {
             dialog.add_button("Accept", RESPONSE_ACCEPT);
             let result = dialog.run();
             if result == RESPONSE_ACCEPT {
-            file = dialog.get_filename();
+                file = dialog.get_filename();
             }
             dialog.destroy();
             file

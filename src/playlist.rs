@@ -153,14 +153,9 @@ impl Playlist {
     pub fn pixbuf(&self) -> Option<Pixbuf> {
         let selection = self.treeview.get_selection();
         if let Some((_, iter)) = selection.get_selected() {
-        let value = self.model.get_value(&iter, PIXBUF_COLUMN as i32);
-        return value.get::<Pixbuf>();
+            let value = self.model.get_value(&iter, PIXBUF_COLUMN as i32);
+            return value.get::<Pixbuf>();
         }
         None
     }
-}
-
-fn set_cover(cover: &Image, playlist: &Playlist) {
-    cover.set_from_pixbuf(playlist.pixbuf().as_ref());
-    cover.show();
 }
