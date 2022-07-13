@@ -148,8 +148,7 @@ impl App {
 
     fn show_open_dialog(parent: &ApplicationWindow) -> Option<PathBuf> {
         let mut file = None;
-        let dialog = FileChooserDialog::new(Some("Select an MP3 audio file"),
-        Some(parent), FileChooserAction::Open);
+        let dialog = FileChooserDialog::new(Some("Select an MP3 audio file"), Some(parent), FileChooserAction::Open);
         let filter = FileFilter::new();
         filter.add_mime_type("audio/mp3");
         filter.set_name("MP3 audio file");
