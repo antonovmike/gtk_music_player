@@ -4,12 +4,13 @@ extern crate id3;
 use crate::gtk::ImageExt;
 use crate::Playlist;
 use gtk::Image;
-use gtk::{ContainerExt, SeparatorToolItem, ToolButton, ToolButtonExt, Toolbar, WidgetExt};
+use gtk::{ContainerExt, ToolButton, Toolbar, WidgetExt};
+// use gtk::{SeparatorToolItem, ToolButstonExt};
 
-use super::App;
+// use super::App;
 
-const PLAY_STOCK: &str = "gtk-media-play";
-const PAUSE_STOCK: &str = "gtk-media-pause";
+// const PLAY_STOCK: &str = "gtk-media-play";
+// const PAUSE_STOCK: &str = "gtk-media-pause";
 
 pub struct MusicToolbar {
     pub open_button: ToolButton,
@@ -62,6 +63,7 @@ fn set_cover(cover: &Image, playlist: &Playlist) {
     cover.set_from_pixbuf(playlist.pixbuf().as_ref());
     cover.show();
 }
+
 /*
 call this function from the click event handler of the play button:
 

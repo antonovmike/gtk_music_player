@@ -4,7 +4,7 @@ extern crate gtk_sys;
 
 use gtk::WindowType::Toplevel;
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
-use gtk::Inhibit;
+// use gtk::Inhibit;
 use gtk::Orientation::{Horizontal, Vertical};
 use gtk::{Adjustment, Image, Scale, ScaleExt};
 use gtk::{Application, ApplicationWindow, Window, GtkWindowExt, WidgetExt};
