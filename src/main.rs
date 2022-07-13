@@ -7,7 +7,7 @@ use crate::playlist::Playlist;
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
 use gtk::Orientation::{Horizontal, Vertical};
-use gtk::{Adjustment, Image, ImageExt, Scale, ScaleExt};
+use gtk::{Adjustment, Image, Scale, ScaleExt};
 use gtk::{Application, ApplicationWindow, GtkWindowExt, WidgetExt};
 use gtk::{ContainerExt, SeparatorToolItem, ToolButton, Toolbar};
 use std::env;
@@ -55,7 +55,7 @@ fn main() {
         let playlist = Playlist::new();
         vbox.add(playlist.view()); // makes playlist visible. WORKS!!!
         let cover = Image::new();
-        cover.set_from_file("cover.jpg");
+        // cover.set_from_file("cover.jpg");
         vbox.add(&cover);
 
         let adjustment = Adjustment::new(0.0, 0.0, 10.0, 0.0, 0.0, 0.0);
