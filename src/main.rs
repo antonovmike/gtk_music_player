@@ -2,21 +2,31 @@ extern crate gio;
 extern crate gtk;
 extern crate gtk_sys;
 
-use crate::playlist::Playlist;
-
 use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
 use gtk::Orientation::{Horizontal, Vertical};
-use gtk::{Adjustment, Image, ImageExt, Scale, ScaleExt};
-use gtk::{Application, ApplicationWindow, GtkWindowExt, WidgetExt};
+use gtk::{Adjustment, Image, Scale, ScaleExt};
+use gtk::{Application, ApplicationWindow, Window, GtkWindowExt, WidgetExt};
 use gtk::{ContainerExt, SeparatorToolItem, ToolButton, Toolbar};
 use std::env;
 use toolbar::MusicToolbar;
+use std::rc::Rc;
+
+use crate::playlist::Playlist;
 
 mod playlist;
 mod toolbar;
 
 const PLAY_STOCK: &str = "gtk-media-play";
+
+struct App {
+    adjustment: Adjustment,
+    cover: Image,
+    playlist: Rc<Playlist>,
+    toolbar: MusicToolbar,
+    // window: ApplicationWindow, // change to next line
+    window: Window,
+}
 
 fn main() {
     let application = Application::new("com.github.rust-by-example", ApplicationFlags::empty())
@@ -44,18 +54,15 @@ fn main() {
         let quit_button = ToolButton::new_from_stock("gtk-quit");
         toolbar.add(&quit_button);
 
-        // TOOLBAR v1
-        // window.add(&toolbar);
-
-        // TOOLBAR v2
+        // TOOLBAR
         let vbox = gtk::Box::new(Vertical, 0); // V: toolbar ontop, H: toolbar on the right
         window.add(&vbox);
         let toolbar = MusicToolbar::new();
         vbox.add(toolbar.toolbar());
-        let playlist = Playlist::new();
+        let playlist = Rc::new(Playlist::new());
         vbox.add(playlist.view()); // makes playlist visible. WORKS!!!
         let cover = Image::new();
-        cover.set_from_file("cover.jpg");
+        // cover.set_from_file("cover.jpg");
         vbox.add(&cover);
 
         let adjustment = Adjustment::new(0.0, 0.0, 10.0, 0.0, 0.0, 0.0);
