@@ -6,7 +6,7 @@ use gio::{ApplicationExt, ApplicationExtManual, ApplicationFlags};
 use gtk::Inhibit;
 use gtk::Orientation::{Horizontal, Vertical};
 use gtk::{Adjustment, Image, Scale, ScaleExt};
-use gtk::{Application, ApplicationWindow, GtkWindowExt, WidgetExt};
+use gtk::{Application, ApplicationWindow, Window, GtkWindowExt, WidgetExt};
 use gtk::{ContainerExt, SeparatorToolItem, ToolButton, Toolbar};
 use std::env;
 use toolbar::MusicToolbar;
@@ -24,8 +24,8 @@ struct App {
     cover: Image,
     playlist: Rc<Playlist>,
     toolbar: MusicToolbar,
-    window: ApplicationWindow, // change to next line
-    // window: Window,
+    // window: ApplicationWindow, // change to next line
+    window: Window,
 }
 
 fn main() {
