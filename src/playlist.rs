@@ -106,9 +106,7 @@ impl Playlist {
     }
 
     // ID3 metadata
-    // convert filename to string
-    // show if there is no song's title
-    // read metadata
+    // convert filename to string show if there is no song's title read metadata
     pub fn add(&self, path: &Path) {
         let filename = path.file_stem().unwrap_or_default().to_str().unwrap_or_default();
         let row = self.model.append();

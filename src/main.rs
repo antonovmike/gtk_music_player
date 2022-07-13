@@ -97,7 +97,6 @@ fn startup_handler(application: &Application) {
 
 impl App {
     fn new(application: Application) -> Self {
-        let window = ApplicationWindow::new(&application);
         let toolbar = MusicToolbar::new();
         let adjustment = Adjustment::new(0.0, 0.0, 10.0, 0.0, 0.0, 0.0);
         let scale = Scale::new(Horizontal, &adjustment);
@@ -128,6 +127,7 @@ impl App {
         app.connect_toolbar_events();
         app
     }
+
     pub fn connect_toolbar_events(&self) {
         let window = self.window.clone();
         self.toolbar.quit_button.connect_clicked(move |_| {
