@@ -1,3 +1,5 @@
+use std::path::Path;
+use crate::gtk::ListStoreExt;
 use crate::gtk::ToValue;
 use crate::gtk::ListStoreExtManual;
 use gdk_pixbuf::PixbufLoader;
@@ -23,7 +25,7 @@ const PATH_COLUMN: u32 = 7;
 const PIXBUF_COLUMN: u32 = 8;
 const IMAGE_SIZE: i32 = 256;
 const THUMBNAIL_SIZE: i32 = 64;
-const INTERP_HYPER:  i32 = 64;
+const INTERP_HYPER:  i32 = 64; // NOT SURE
 
 pub struct Playlist {
     model: ListStore,
@@ -105,5 +107,40 @@ impl Playlist {
         }
         pixbuf_loader.close().unwrap();
         }
+    }
+
+    // ID3 metadata
+    // convert filename to string
+    // show if there is no song's title
+    // read metadata
+    pub fn add(&self, path: &Path) {
+        let filename = path.file_stem().unwrap_or_default().to_str().unwrap_or_default();
+        let row = self.model.append();
+        if let Ok(tag) = Tag::read_from_path(path) {
+            let title = tag.title().unwrap_or(filename);
+            let artist = tag.artist().unwrap_or("(no artist)");
+            let album = tag.album().unwrap_or("(no album)");
+            let genre = tag.genre().unwrap_or("(no genre)");
+            let year = tag.year().map(|year|
+                year.to_string()).unwrap_or("(no year)".to_string());
+            let track = tag.track().map(|track|
+                track.to_string()).unwrap_or("??".to_string());
+            let total_tracks = tag.total_tracks().map(|total_tracks|
+                total_tracks.to_string()).unwrap_or("??".to_string());
+            let track_value = format!("{} / {}", track, total_tracks);
+            self.set_pixbuf(&row, &tag);
+            // create new row in model, call set_pixbuf()
+            self.model.set_value(&row, TITLE_COLUMN, &title.to_value());
+            self.model.set_value(&row, ARTIST_COLUMN, &artist.to_value());
+            self.model.set_value(&row, ALBUM_COLUMN, &album.to_value());
+            self.model.set_value(&row, GENRE_COLUMN, &genre.to_value());
+            self.model.set_value(&row, YEAR_COLUMN, &year.to_value());
+            self.model.set_value(&row, TRACK_COLUMN, &track_value.to_value());
+        }
+        else {
+            self.model.set_value(&row, TITLE_COLUMN, &filename.to_value());
+            }
+        let path = path.to_str().unwrap_or_default();
+        self.model.set_value(&row, PATH_COLUMN, &path.to_value());
     }
 }
